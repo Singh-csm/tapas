@@ -8,9 +8,15 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+
 import { register } from "./controllers/auth.js";
+import { createPost } from "./controllers/posts.js";
+
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
+import postRoutes from "./routes/posts.js";
+
+import { verifyToken } from "./middleware/auth.js";
 
 //==========CONFIGURATIONS======
 const __filename = fileURLToPath(import.meta.url); // to grab the file url , this only when we use type modules
@@ -43,10 +49,12 @@ const upload = multer({ storage }); //using upload variable I am going to upload
 //=======ROUTES WITH FILES=========
 //this is the API while user hit register from front end and this is the midleware responsible for"upload.single("picture")" uploading picture in locally
 app.post("/auth/register", upload.single("picture"), register);
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 //========ROUTES=======
 app.use("/auth", authRoutes);
-app.use("/users",userRoutes);
+app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 //=========MONGOOSE SETUP===
 const PORT = process.env.PORT || 6001;

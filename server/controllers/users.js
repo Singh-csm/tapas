@@ -9,7 +9,7 @@ export const getUser = async function (req, res) {
 
         res.status(200).json(user);
     } catch (err) {
-        return res.status(500).json({ message: err.message });
+        return res.status(404).json({ message: err.message });
     }
 }
 
@@ -30,7 +30,7 @@ export const getUserFriends = async function (req, res) {
 
         res.status(200).json(formattedFriends);
     } catch (err) {
-        return res.status(500).json({ message: err.message });
+        return res.status(404).json({ message: err.message });
     }
 }
 
@@ -65,6 +65,6 @@ export const addRemoveFriend = async function (req, res) {
 
         res.status(200).json(formattedFriends);
     } catch (err) {
-        return res.status(500).json({ message: err.message });
+        return res.status(404).json({ message: err.message });
     }
 }
